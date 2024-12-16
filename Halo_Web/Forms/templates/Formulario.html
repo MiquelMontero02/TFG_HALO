@@ -1,0 +1,82 @@
+{% load static%}
+<!DOCTYPE html>
+<html>
+  <head> </head>
+  <body>
+    <header>
+      <h1>Halo Database Insert Section</h1>
+      <nav>
+        <button onclick="">Cargar anterior</button>
+      </nav>
+    </header>
+    <main>
+      <h2>Etapa Actual: <span id="Etapa">Sample</span></h2>
+      <h3 id="ruta">Sample</h3>
+      <div id="contenedor">
+        <form id="Sample">
+          <label for="name">Nombre</label>
+          <input type="text" name="name" id="name" />
+          <label for="stype">Descripción</label>
+          <input type="text" name="stype" id="stype" />
+          <label for="ssize">Tamaño</label>
+          <input type="number" name="ssize" id="ssize" step="0.01" min="0.01" />
+          <p>Tipo de medida:</p>
+          <label for="ssizetype_l">Volumen(l)</label>
+          <input type="radio" name="ssizetype_l" id="ssizetype_l" value="l" />
+          <label for="ssizetype_m">Masa(g)</label>
+          <input type="radio" name="ssizetype_m" id="ssizetype_m" value="m" />
+          <label for="ssizeunit">Unidad</label>
+          <select name="ssizeunit" id="ssizeunit" form="Sample">
+            <option value="T">T</option>
+            <option value="G">G</option>
+            <option value="M">M</option>
+            <option value="k">k</option>
+            <option value="h">h</option>
+            <option value="da">da</option>
+            <option value="u">Unidad</option>
+            <option value="d">d</option>
+            <option value="c">c</option>
+            <option value="m">m</option>
+            <option value="micro">µ</option>
+            <option value="n">n</option>
+            <option value="p">p</option>
+          </select>
+          <label for="keywords">Infromación adicional</label>
+          <input type="text" name="keywords" id="keywords" />
+          <input
+            type="submit"
+            id="submit"
+            value="Siguiente"
+            onclick="CPSample()"
+          />
+        </form>
+      </div>
+    </main>
+    <script src="{% static 'CheckPointSample.js' '%}"></script>
+    <script src="{% static 'Step2Form.js' '%}"></script>
+    <script src="{% static 'updateStep.js' '%}"></script>
+  </body>
+  <!--
+  Campos del Formulario_1():
+  -MUESTRA:
+    name: Nombre muestra(text)
+    stype: Description (text)
+    ssize: Tamaño muestra (number)
+    ssizeunit:Unidad (enum)
+    keywords:Lista valores
+    Data_keywords: extension
+    country: País de orígen(Lista)
+    regi:Región(Lista+ opción de otros)
+    geol: Posición geográfica(Texto (Mapa a futuro))
+    lati:Num
+    long:NUm
+    depth: Prfundidad (NUM)
+    sour: Info adicional
+    dats: Fecha (date)
+    hocs: Hora (Time)
+    dati: fecha isolacion
+    tems: temperatura (num)
+    phsa: PH (num)
+    sals: Salinidad:(num)
+  -->
+</html>
