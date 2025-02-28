@@ -3,28 +3,45 @@ LocalStoreData: Stores form inputs values in actual session to avoid "trash inpu
 */
 
 function LocalStoreData(step) {
-  var form = document.getElementById("Sample");
-  //Obtenemos el formulario Sample y sus campos inputs
-  var inputs = form.getElementsByTagName("input");
-  //Los campos select se tratan por separado,
-  /*
-  var select = form.getElementsByTagName("select")[0];
-  var unidad = select[select.selectedIndex].value;
-  //Guardamos la pareja key-value en LS
-  localStorage.setItem(select.name, unidad);
-  */
-  for (var value of inputs) {
-    if (value.type != "submit" && (value.type != "radio" || value.checked)) {
-      if (value.type == "radio") {
-        localStorage.setItem("ssizetype", value.value);
-      } else {
-        localStorage.setItem(value.name, value.value);
+  const cardForm = document.getElementById("cardForm");
+  const inputList = cardForm.getElementsByTagName("input");
+  const textareaList = cardForm.getElementsByTagName("textarea");
+  const selectList = cardForm.getElementsByTagName("select");
+  const FORM_DATA = {
+    stored: "false",
+    changed: "false",
+    fields: setInputValues(
+      Array.from(inputList).concat(
+        Array.from(textareaList),
+        Array.from(selectList)
+      )
+    ),
+  };
+  localStorage.setItem("Form_".concat(step), JSON.stringify(FORM_DATA));
+}
+
+function setInputValues(list) {
+  let i,
+    item,
+    result = [];
+  if (list.length > 0) {
+    for (i in list) {
+      item = list[i];
+      localStorage.setItem(item.id, item.value);
+      if(item.tagName=="SELECT"){
+        result.push({ id: item.id, value: item.value, tagName: item.tagName, type:item.type, options:JSON.stringify(getOptionsName(item)) });
+      }else{
+        result.push({ id: item.id, value: item.value, tagName: item.tagName, type:item.type });
       }
     }
   }
-  /*
-  for (var id of TEST) {
-    console.log("Almacenado como " + id + ":" + localStorage.getItem(id));
-  }
-  */
+  return result;
+}
+
+function getOptionsName(item){
+  let list=[];
+  Array.from(item.options).forEach((item)=>{
+    list.push({text:item.text,value:item.value})
+  })
+  return list;
 }

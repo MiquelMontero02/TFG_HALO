@@ -1,0 +1,96 @@
+{% extends "master.html" %} {% block title %} HaloFile WebApp {% endblock %} 
+{% block content %}
+    <header>
+        <div class="container d-flex justify-content-between  align-items-center">
+          <img src="/static/icon.png" width="10%" height="10%" style="min-width: 90px;">
+            <h1>HaloFile Main Page</h1>
+            {% if user.is_authenticated %}
+              <h2> Welcome Back, {{ user.get_username }}</h2>
+            {% endif %}
+            <nav class="nav nav-pills">
+                {% if user.is_authenticated %}
+                  <a class="nav-link" href="/Forms">Insert Data</a>
+                {% endif%}
+
+                  <a class="btn btn-outline-success" href="{% url 'login' %}">Log In</a>
+
+            </nav>
+        </div>
+    </header>
+    <body>
+      <section id="Searcher" class="p-3">
+        <div class="container d-flex justify-content-center">
+          <input class="form-control m-1" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success m-1" type="submit">Search</button>
+          <button class="btn btn-outline-success m-1" type="submit">Advanced Search</button>      
+        </div>
+      </section>
+
+      <section id="Introduction">
+        <div class="container d-flex justify-content-center">
+          <h2>Welcome to Halophile</h2>
+        </div>
+        <div class="container d-col p-3">
+          <p class="m-3">
+            Discover a comprehensive collection of microorganisms thriving in 
+            environments with fluctuating salinity. Our database provides researchers,
+            scientists, and enthusiasts with an intuitive interface to explore, analyze,
+            and compare microbial data. Whether you're studying adaptation mechanisms,
+            searching for biotechnological applications, or simply exploring the 
+            diversity of extremophiles, our platform offers reliable and up-to-date
+            information. 
+          </p>
+          <p class="m-3">
+            Start exploring today and unlock the secrets of microbial life in variable
+            salinity conditions!
+            
+          </p>
+        </div>
+      </section>
+
+      <section id="Functions">
+        <div class="container d-flex justify-content-center">
+          <h2>What can I do in HaloPhileDB?</h2>
+        </div>
+        <div class="container d-flex justify-content-start p-3">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><span class="badge bg-primary m-2">1</span>Look up any published data using multiple and sofistifaced filter</li>
+            <li class="list-group-item"><span class="badge bg-primary m-2">2</span>Upload your own projects and published them for share your knowledge!</li>
+            <li class="list-group-item"><span class="badge bg-primary m-2">3</span>Reuse your Data whenever you need. Same Sample but different experiments? Just save and change 1 field and go ahead!</li>
+            <li class="list-group-item"><span class="badge bg-primary m-2">4</span>Wanna share project information only with your investigation group? Also avalibable in HaloPhile!</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="Help">
+        <div class="container d-flex justify-content-center">
+          <h2>I need some help!</h2>
+        </div>
+        <div class="container d-flex justify-content-start">
+          <p class="m-3">
+            If you don't remember something or it's your first time in HaloPhile, you 
+            can check here the <a href="#">Documentation</a> and also you can take a look
+             this <a href="#">Example Videos</a> 
+          </p>
+        </div>
+      </section>
+        
+
+        
+          <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <div class="col-md-4 d-flex align-items-center">
+              <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+                <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+              </a>
+              <span class="text-muted">&copy; 2021 Company, Inc</span>
+            </div>
+        
+            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+              <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"/></svg></a></li>
+              <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"/></svg></a></li>
+              <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"/></svg></a></li>
+            </ul>
+          </footer>
+    </body>
+    <script> document.addEventListener("DOMContentLoaded",localStorage.clear())</script>
+{% endblock %}

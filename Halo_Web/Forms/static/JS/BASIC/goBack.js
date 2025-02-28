@@ -1,36 +1,38 @@
 /*
 1. Cargar formulario antiguo
+1.1 Si el formulario es ==3, borrar path y names de los forms asociados al koma
 2. Retornar los valores de cada campo
 3. Actualizar step-by-step
 */
-function goBack(){
-    const newStep=Number(localStorage.getItem("actualStep"))-1;
-    localStorage.setItem("actualStep",newStep);
-    LoadNextForm(newStep);
-    RecoverFieldsData();
-    RemoveStep();
+async function goBack(step) {
+  const ACT_STEP = localStorage.getItem("actualStep");
+  if (ACT_STEP == step) {
+    return;
+  } else if (step == -1) {
+    step = ACT_STEP - 1;
+  }
+  localStorage.setItem("actualStep", step);
+  await LoadNextForm(step);
+  RecoverFieldsData();
+  RemoveStep(step, ACT_STEP);
+  document.getElementById("Etapa").innerHTML = STEPS_NAME[step];
 }
 
-/*
-    Data of form x= "DataFormaStepX"
-*/
-function RecoverFieldsData(){
-    var form=document.getElementById("Sample");
-    var inputList=form.getElementsByTagName("input");
-    var textareaList=form.getElementsByTagName("textarea");
-    var selectList=form.getElementsByTagName("select");
-    var item,storedValue;
-    for(item in inputList){
-        storedValue=localStorage.getItem(item.id);
-        item.value=storedValue;
-    }
-    for(item in textareaList){
-        storedValue=localStorage.getItem(item.id);
-        item.value=storedValue;
-    }
-    for(item in selectList){
-        storedValue=localStorage.getItem(item.id);
-        item.options.namedItem(storedValue).selected=true;
-    }
-    
+async function RecoverFieldsData() {
+  const cardForm = document.getElementById("cardForm");
+  const inputList = Array.from(cardForm.getElementsByTagName("input"));
+  const textareaList = Array.from(cardForm.getElementsByTagName("textarea"));
+  const selectList = Array.from(cardForm.getElementsByTagName("select"));
+  const simpleItem = inputList.concat(textareaList);
+  var item, i, storedValue;
+  for (i in simpleItem) {
+    item = simpleItem[i];
+    storedValue = localStorage.getItem(item.id);
+    item.value = storedValue;
+  }
+  for (i in selectList) {
+    item = selectList[i];
+    storedValue = localStorage.getItem(item.id);
+    document.getElementById(item.id).value = storedValue;
+  }
 }
