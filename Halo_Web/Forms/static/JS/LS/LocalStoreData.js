@@ -2,8 +2,8 @@
 LocalStoreData: Stores form inputs values in actual session to avoid "trash inputs" in DB
 */
 
-function LocalStoreData(step) {
-  const cardForm = document.getElementById("cardForm");
+function LocalStoreData(step="Sample",isSample=false,form=null) {
+  const cardForm = isSample ? form : document.getElementById("cardForm");
   const inputList = cardForm.getElementsByTagName("input");
   const textareaList = cardForm.getElementsByTagName("textarea");
   const selectList = cardForm.getElementsByTagName("select");
@@ -30,7 +30,13 @@ function setInputValues(list) {
       localStorage.setItem(item.id, item.value);
       if(item.tagName=="SELECT"){
         result.push({ id: item.id, value: item.value, tagName: item.tagName, type:item.type, options:JSON.stringify(getOptionsName(item)) });
-      }else{
+      }else if (item.type=="radio"){
+        if(item.checked){
+          result.push({ id: item.id, value: item.value, tagName: item.tagName, type:item.type });
+        }
+          
+      }
+      else{
         result.push({ id: item.id, value: item.value, tagName: item.tagName, type:item.type });
       }
     }

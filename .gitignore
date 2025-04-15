@@ -1,3 +1,8 @@
 HaloEnv
 AUX_Form.html
 /DEV
+staticfiles
+*.pyc
+.HaloEnv
+.env
+DOCS

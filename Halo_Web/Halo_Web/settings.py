@@ -14,8 +14,20 @@ from pathlib import Path
 
 import os
 
+from decouple import config
+#
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'in-v3.mailjet.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True  # No TLS por ahora, ya que estamos en local
+EMAIL_HOST_USER = 'eb6436d23f547dcdfd11552616bd5836'  # El usuario configurado en Docker
+EMAIL_HOST_PASSWORD = '0ac3e293bcbf431fbe9a7a87501ddcbd'  # La contraseña configurada en Docker
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,9 +37,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)0mp9_7nxcqlp^__$l_^2xiamft0_05p=h@(#5^_2ld(20-2c1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DJANGO_ENV = config('DJANGO_ENV', default='prod')
+DEBUG = DJANGO_ENV=='dev'
 
-ALLOWED_HOSTS = ['https://bioinfo.uib.es/halophile/','localhost']
+ALLOWED_HOSTS = ["bioinfo.uib.es/halophile",'127.0.0.1']
+
+CSRF_TRUSTED_ORIGINS = ["https://bioinfo.uib.es",'https://127.0.0.1:8000']
 
 
 # Application definition
@@ -47,6 +62,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -72,6 +88,16 @@ TEMPLATES = [
     },
 ]
 
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',  # Puedes cambiar a tu configuración si usas otro puerto o base de datos
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
 WSGI_APPLICATION = 'Halo_Web.wsgi.application'
 
 
@@ -120,7 +146,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -129,4 +155,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
+STATIC_ROOT = '/home/halophile/public_html/static/'
+
+if DEBUG:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'Forms/static'),]
+    STATIC_URL = '/static/'
+else:
+    STATIC_URL = '/halophile/static/'
+    #FORCE_SCRIPT_NAME = '/halophile'
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+#
 
